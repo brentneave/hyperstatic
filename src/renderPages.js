@@ -20,7 +20,10 @@ const renderPages = async (allPages, port = 54321) => {
 
   const baseUrl = `http://localhost:${port}`
 
-  const browser = await puppeteer.launch({ args: ['--no-sandbox'] })
+  const browser = await puppeteer.launch({
+    ignoreDefaultArgs: ['--disable-extensions'],
+    args: ['--no-sandbox', '--single-process']
+  })
 
   console.log(`Rendering ${allPages.length} pages...`)
 
@@ -54,7 +57,7 @@ const renderPages = async (allPages, port = 54321) => {
     // Remove basepath from rendered HTML
     // Ex: <script src="http://localhost/about" /> becomes just <script src="/about" />
     const cleanedUpHtml = html.split(baseUrl).join('')
-    
+
     try {
       await fse.outputFile(pageFileAbsolutePath, cleanedUpHtml)
 
