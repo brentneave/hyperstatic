@@ -1,3 +1,13 @@
+export const objectFromEntries = (entries) => {
+  const obj = {};
+  entries.forEach(
+    entry => {
+      obj[entry[0]] = entry[1]
+    }
+  )
+  return obj;
+}
+
 export const getPathInfo = (state, path) => {
   const url = new URL(path, 'https://localhost')
   const { search, pathname, searchParams } = url
@@ -13,7 +23,7 @@ export const getPathInfo = (state, path) => {
     path: withoutTrailingSlash,
     params: matchParams || {},
     query: search,
-    queryParams: Object.fromEntries(searchParams.entries()),
+    queryParams: objectFromEntries(searchParams.entries()),
     route: matchedRoute && matchedRoute.route, // Route pattern, ex: /products/:id
     loaded: !!loaded
   }
